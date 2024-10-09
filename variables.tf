@@ -16,7 +16,6 @@ variable "resource_group_name" {
 
 variable "github_organization_name" {
   description = "Name of the GitHub organization"
-  default     = "fjvela"
 }
 
 variable "branches" {
@@ -36,5 +35,4 @@ variable "uid_role_assigment" {
 
 variable "github_repository_name" {
   description = "Name of the repository to setup the secrets needed"
-  default     = "blog-demo-federated-identity-credential"
 }
