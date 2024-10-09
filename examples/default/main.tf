@@ -5,11 +5,14 @@ resource "azurerm_resource_group" "rg" {
 }
 
 module "test" {
-  source              = "../../"
-  region              = local.region
-  tags                = local.tags
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  source                   = "../../"
+  region                   = local.region
+  tags                     = local.tags
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  github_organization_name = var.github_organization_name
+  github_repository_name   = var.github_repository_name
+
   uid_role_assigment = [
     {
       scope                            = data.azurerm_subscription.current.id

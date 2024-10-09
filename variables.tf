@@ -24,6 +24,12 @@ variable "branches" {
     "main"
   ]
 }
+
+variable "environments" {
+  description = "List of enviroments to add as subject to the federated identity credential"
+  default     = []
+}
+
 variable "uid_role_assigment" {
   type = list(object({
     scope                            = string

@@ -14,7 +14,7 @@ resource "azurerm_role_assignment" "uid_role_assigment" {
   skip_service_principal_aad_check = each.value.skip_service_principal_aad_check
 }
 
-resource "azurerm_federated_identity_credential" "federated_identity_credential" {
+resource "azurerm_federated_identity_credential" "federated_identity_credential_branches" {
   for_each            = toset(var.branches)
   name                = "gh-${var.github_organization_name}-${var.github_repository_name}-${each.value}"
   resource_group_name = var.resource_group_name
@@ -22,6 +22,17 @@ resource "azurerm_federated_identity_credential" "federated_identity_credential"
   issuer              = "https://token.actions.githubusercontent.com"
   parent_id           = azurerm_user_assigned_identity.uid.id
   subject             = "repo:${var.github_organization_name}/${var.github_repository_name}:ref:refs/heads/${each.value}"
+}
+
+resource "azurerm_federated_identity_credential" "federated_identity_credential_environments" {
+  for_each = toset(var.environments)
+
+  name                = "gh-${var.github_organization_name}-${var.github_repository_name}-${each.value}"
+  resource_group_name = var.resource_group_name
+  audience            = ["api://AzureADTokenExchange"]
+  issuer              = "https://token.actions.githubusercontent.com"
+  parent_id           = azurerm_user_assigned_identity.uid.id
+  subject             = "repo:${var.github_organization_name}/${var.github_repository_name}:environment:${each.value}"
 }
 
 # GitHub Setup
